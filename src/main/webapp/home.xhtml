@@ -6,10 +6,15 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-<title>#{homeBean.text}</title>
+    <title>#{homeBean.text}</title>
 </h:head>
 <h:body>
     <h:outputText value="#{homeBean.text}"></h:outputText>
+    <h:form>
+        Login <h:inputText value="#{homeBean.login}"></h:inputText>
+        Password <h:inputText value="#{homeBean.password}"></h:inputText>
+        <h:commandLink value="Login" action="#{homeBean.doLogin}"/>
+    </h:form>
 </h:body>
 
 </html>

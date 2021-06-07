@@ -1,13 +1,13 @@
 package javaee;
 
-import javax.inject.Named;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-@Named
-public class HomeBean {
-    private String text = "Home Bean text";
+@Entity
+public class UserEntity {
+    @Id
     private String login;
     private String password;
-    private boolean logged;
 
     public String getLogin() {
         return login;
@@ -25,23 +25,5 @@ public class HomeBean {
         this.password = password;
     }
 
-    public String getText() {
-        return text;
-    }
 
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public boolean isLogged() {
-        return logged;
-    }
-
-    public void setLogged(boolean logged) {
-        this.logged = logged;
-    }
-
-    public void doLogin(){
-        logged = true;
-    }
 }

@@ -3,27 +3,25 @@ package javaee;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
+@Entity(name = "users")
 public class UserEntity {
     @Id
-    private String login;
-    private String password;
+    private String id;
+    private String first_name;
 
-    public String getLogin() {
-        return login;
+    public String getId() {
+        return id;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getPassword() {
-        return password;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
     }
-
-
 }

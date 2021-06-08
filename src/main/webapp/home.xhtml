@@ -6,15 +6,24 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-    <title>#{homeBean.text}</title>
+    <title>#{homeCDI.text}</title>
 </h:head>
 <h:body>
-    <h:outputText value="#{homeBean.text}"></h:outputText>
-    <h:form>
-        Login <h:inputText value="#{homeBean.login}"></h:inputText>
-        Password <h:inputText value="#{homeBean.password}"></h:inputText>
-        <h:commandLink value="Login" action="#{homeBean.doLogin}"/>
-    </h:form>
+    <h:outputText value="#{homeCDI.text}"></h:outputText>
+    <h:dataTable value="#{homeCDI.allUsers}" var="user">
+        <h:column>
+            <h:outputText value="#{user.id}"/>
+        </h:column>
+        <h:column>
+            <h:outputText value="#{user.first_name}"/>
+        </h:column>
+    </h:dataTable>
+
+<!--    <h:form>-->
+<!--        Login <h:inputText value="#{homeCDI.login}"></h:inputText>-->
+<!--        Password <h:inputText value="#{homeCDI.password}"></h:inputText>-->
+<!--        <h:commandLink value="Login" action="#{homeCDI.doLogin()}"/>-->
+<!--    </h:form>-->
 </h:body>
 
 </html>

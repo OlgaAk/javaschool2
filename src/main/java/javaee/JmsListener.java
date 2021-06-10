@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJBException;
 import javax.ejb.MessageDriven;
+import javax.inject.Inject;
 import javax.jms.*;
 
 import org.jboss.ejb3.annotation.ResourceAdapter;
@@ -28,6 +29,9 @@ public class JmsListener implements MessageListener {
     private ConnectionFactory connectionFactory;
     private Connection connection;
 
+    @Inject
+    private HomeCDI homeCDI;
+
     public void init() throws JMSException {
         connection = connectionFactory.createConnection();
         connection.start();
@@ -43,6 +47,7 @@ public class JmsListener implements MessageListener {
             init();
             String text = ((TextMessage) message).getText();
             logger.info("message received: " + text);
+            homeCDI.updateStand();
         } catch (JMSException e) {
             logger.error(e.getMessage());
             throw new EJBException("Error in JMS operation", e);

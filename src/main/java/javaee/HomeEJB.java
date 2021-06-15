@@ -1,40 +1,32 @@
 package javaee;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import javaee.dto.StationDto;
+import javaee.jms.JmsListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Stateless
 public class HomeEJB {
 
-    @PersistenceContext(unitName = "Unit1")
+    @PersistenceContext(unitName = "Unit1") //not used in this app
     private EntityManager entityManager;
 
-    public List<UserEntity> getUsers() {
-        List<UserEntity> list = new ArrayList<>();
-        try {
-            Query query = entityManager.createQuery("SELECT user FROM users user");
-            list = query.getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
+    private static final Logger logger
+            = LoggerFactory.getLogger(HomeEJB.class);
 
-    public List<String> getRestData() throws IOException {
-        URL url = new URL("http://localhost:8081/api/test");
+    public StationDto getRestData() throws IOException {
+        URL url = new URL("http://localhost:8081/api/station/1");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
         BufferedReader in = new BufferedReader(
@@ -47,7 +39,13 @@ public class HomeEJB {
         System.out.println(content);
         in.close();
         con.disconnect();
-        return new Gson().fromJson(content.toString(), new TypeToken<List<String>>(){}.getType());
+        StationDto stationDto = new StationDto();
+        try{
+            stationDto = new Gson().fromJson(content.toString(), StationDto.class);
+        } catch (Exception ex){
+            logger.error(ex.getCause().getMessage());
+        }
+        return stationDto;
     }
 
 }

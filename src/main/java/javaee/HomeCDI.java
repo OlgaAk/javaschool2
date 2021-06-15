@@ -1,6 +1,8 @@
 package javaee;
 
-import org.springframework.stereotype.Service;
+import javaee.dto.StationDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -11,61 +13,71 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 @Named
 @SessionScoped
 public class HomeCDI implements Serializable {
 
+    private static final Logger logger
+            = LoggerFactory.getLogger(HomeCDI.class);
+
     @Inject
-    @Push(channel = "stats")
+    @Push(channel = "station")
     private PushContext context;
 
     @EJB
     HomeEJB homeEJB;
 
-    private List<String> stats;
+    private StationDto stationDto;
+
+    public StationDto getStationDto() {
+        return stationDto;
+    }
+
+    public void setStationDto(StationDto stationDto) {
+        this.stationDto = stationDto;
+    }
 
     @PostConstruct
     public void init() {
         try {
-            List<String> response = homeEJB.getRestData();
-            System.out.println(response);
-            stats = response;
+            StationDto response = homeEJB.getRestData();
+            logger.info(response.toString());
+            stationDto = response;
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void updateStand() {
-        List<String> response = null;
         try {
-            response = homeEJB.getRestData();
-            System.out.println(response);
-            stats = response;
+            stationDto = homeEJB.getRestData();
+            logger.info(stationDto.toString());
             context.send("update");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public List<String> getStats() {
-        return stats;
-    }
-
-    public void setStats(List<String> stats) {
-        this.stats = stats;
-    }
-
     public void testAjax(){
         System.out.println("AJAX!");
         try {
-            List<String> response = homeEJB.getRestData();
-            System.out.println(response);
-            stats = response;
+            stationDto = homeEJB.getRestData();
+            logger.info(stationDto.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getDate(){
+        Date date = new Date();
+        DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        String dateString = "";
+        dateString = format.format(date);
+        return dateString;
     }
 }

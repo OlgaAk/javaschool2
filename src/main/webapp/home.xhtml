@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <h:head>
     <meta charset="UTF-8"/>
@@ -8,19 +8,33 @@
 </h:head>
 
 <h:body>
-    <div class="container">
-        <h:dataTable id="dataTable" value="#{homeCDI.stats}"
-                     var="product">
+    <h:outputStylesheet library="css" name="main.css"/>
+    <div class="container timetable-container">
+        <div id="title-station" > <h:outputText value="#{homeCDI.stationDto.name} #{homeCDI.date}"/></div>
+        <h:dataTable id="dataTable" value="#{homeCDI.stationDto.timetableItemsDeparture}"
+                     var="timetable">
             <h:column>
-                <f:facet name="header">Units sold</f:facet>
-                #{product}
+                <f:facet name="header">Departure</f:facet>
+                #{timetable.formattedDepartureTime}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Destination</f:facet>
+                #{timetable.endTripStationName}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Platform</f:facet>
+                    1
+            </h:column>
+            <h:column>
+                <f:facet name="header">Status</f:facet>
+                    No report
             </h:column>
 
         </h:dataTable>
     </div>
 
     <h:form>
-        <f:websocket channel="stats" onmessage="function n(){console.log(123);}">
+        <f:websocket channel="station" onmessage="function n(){console.log(123);}">
             <f:ajax event="update" listener="#{homeCDI.testAjax}" render="dataTable"/>
         </f:websocket>
     </h:form>

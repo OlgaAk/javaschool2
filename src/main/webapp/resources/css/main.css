@@ -1,0 +1,36 @@
+#dataTable{
+    margin: 0 auto;
+}
+
+body{
+    background-color: #444444;
+    color: #ffca00;
+    text-transform: uppercase;
+}
+
+#title-station{
+text-align: center;
+    margin-bottom: 50px;
+    font-size: 24px;
+}
+
+#dataTable thead{
+    color: white;
+}
+tr{
+    height: 40px;
+    text-align: left;
+}
+
+td{
+    border-bottom: #333 3px solid;
+    min-width: 150px;
+}
+
+th{
+    min-width: 150px;
+}
+
+.timetable-container{
+    margin-top: 100px;
+}

@@ -36,7 +36,6 @@ public class HomeEJB {
         while ((inputLine = in.readLine()) != null) {
             content.append(inputLine+"\n");
         }
-        System.out.println(content);
         in.close();
         con.disconnect();
         StationDto stationDto = new StationDto();

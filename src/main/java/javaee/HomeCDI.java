@@ -6,7 +6,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.push.Push;
 import javax.faces.push.PushContext;
 import javax.inject.Inject;
@@ -19,7 +20,7 @@ import java.util.Date;
 
 
 @Named
-@SessionScoped
+@RequestScoped
 public class HomeCDI implements Serializable {
 
     private static final Logger logger
@@ -46,7 +47,7 @@ public class HomeCDI implements Serializable {
     public void init() {
         try {
             StationDto response = homeEJB.getRestData();
-            logger.info(response.toString());
+            logger.info("REST request made on Ejb-init. Response received " + response.toString());
             stationDto = response;
         } catch (IOException e) {
             e.printStackTrace();
@@ -56,8 +57,9 @@ public class HomeCDI implements Serializable {
     public void updateStand() {
         try {
             stationDto = homeEJB.getRestData();
-            logger.info(stationDto.toString());
+            logger.info("Updating timetable. New data: "+ stationDto.toString());
             context.send("update");
+            logger.info("Push message sent to websocket");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -67,7 +69,7 @@ public class HomeCDI implements Serializable {
         System.out.println("AJAX!");
         try {
             stationDto = homeEJB.getRestData();
-            logger.info(stationDto.toString());
+            logger.info("Ajax listener message. New rest request for station data");
         } catch (IOException e) {
             e.printStackTrace();
         }

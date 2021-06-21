@@ -1,11 +1,12 @@
 package javaee.dto;
 
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class TimetableItemDto implements Comparable<TimetableItemDto>  {
+public class TimetableItemDto implements Comparable<TimetableItemDto> {
 
     private long id;
 
@@ -30,6 +31,8 @@ public class TimetableItemDto implements Comparable<TimetableItemDto>  {
     private String formattedDepartureTime;
 
     private int order;
+
+    private int platform;
 
     public TimetableItemDto() {
     }
@@ -130,28 +133,47 @@ public class TimetableItemDto implements Comparable<TimetableItemDto>  {
         this.formattedDepartureTime = formattedDepartureTime;
     }
 
+    public int getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(int platform) {
+        this.platform = platform;
+    }
+
     @Override
     public int compareTo(TimetableItemDto t) {
         int result = 0;
         try {
-            Date date1=new SimpleDateFormat("HH:mm").parse(formattedDepartureTime);
-            Date date2=new SimpleDateFormat("HH:mm").parse(t.formattedDepartureTime);
-            result = (int) (date1.getTime() -date2.getTime());
+            Date date1 = new SimpleDateFormat("HH:mm").parse(formattedDepartureTime);
+            Date date2 = new SimpleDateFormat("HH:mm").parse(t.formattedDepartureTime);
+            result = (int) (date1.getTime() - date2.getTime());
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return result;
     }
 
-//    public String getTrainStatus(){
-////        Date date = new Date();
-////        DateFormat format = new SimpleDateFormat("HH:mm");
-////        try {
-////            date = format.parse(departureTime);
-////        } catch (ParseException e) {
-////            e.printStackTrace();
-////        }
-////        return "";
-//    }
+    @Override
+    public String toString() {
+        return "TimetableItemDto{" +
+                "\nid=" + id +
+                "\n, stationId=" + stationId +
+                "\n, stationName='" + stationName + '\'' +
+                "\n, departureTime='" + departureTime + '\'' +
+                "\n, arrivalTime='" + arrivalTime + '\'' +
+                "\n, departureTimeAsDate=" + departureTimeAsDate +
+                "\n, arrivalTimeAsDate=" + arrivalTimeAsDate +
+                "\n, startTripStationName='" + startTripStationName + '\'' +
+                "\n, endTripStationName='" + endTripStationName + '\'' +
+                "\n, formattedArrivalTime='" + formattedArrivalTime + '\'' +
+                "\n, formattedDepartureTime='" + formattedDepartureTime + '\'' +
+                ", order=" + order +
+                '}';
+    }
+
+
+
+
 }
 

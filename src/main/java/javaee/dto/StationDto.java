@@ -1,5 +1,6 @@
 package javaee.dto;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,6 +9,8 @@ public class StationDto {
     private long id;
 
     private String name;
+
+    private List<Integer> platforms = Arrays.asList(1,2,3,4,5);
 
     private List<TimetableItemDto> timetableItems;
 
@@ -42,14 +45,6 @@ public class StationDto {
         this.timetableItems = timetableItems;
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-                "id:" + id +
-                ", name:\"" + name + '"' +
-                '}';
-    }
-
     public List<TimetableItemDto> getTimetableItemsDeparture(){
         return timetableItems
                 .stream()
@@ -64,4 +59,20 @@ public class StationDto {
         }).sorted().collect(Collectors.toList());
     }
 
+    public List<Integer> getPlatforms() {
+        return platforms;
+    }
+
+    public void setPlatforms(List<Integer> platforms) {
+        this.platforms = platforms;
+    }
+
+    @Override
+    public String toString() {
+        return "StationDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", timetableItems=" + timetableItems +
+                '}';
+    }
 }

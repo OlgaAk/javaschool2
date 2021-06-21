@@ -10,27 +10,100 @@
 <h:body>
     <h:outputStylesheet library="css" name="main.css"/>
     <div class="container timetable-container">
-        <div id="title-station" > <h:outputText value="#{homeCDI.stationDto.name} #{homeCDI.date}"/></div>
-        <h:dataTable id="dataTable" value="#{homeCDI.stationDto.timetableItemsDeparture}"
-                     var="timetable">
-            <h:column>
-                <f:facet name="header">Departure</f:facet>
-                #{timetable.formattedDepartureTime}
-            </h:column>
-            <h:column>
-                <f:facet name="header">Destination</f:facet>
-                #{timetable.endTripStationName}
-            </h:column>
-            <h:column>
-                <f:facet name="header">Platform</f:facet>
-                    1
-            </h:column>
-            <h:column>
-                <f:facet name="header">Status</f:facet>
-                    No report
-            </h:column>
+        <div id="title-station"><h:outputText value="#{homeCDI.stationDto.name} #{homeCDI.date}"/></div>
+        <div id="tabs-container">
+            <div id="tab-departure" class="tab" onclick="selectDepartures()">Departure</div>
+            <div id="tab-arrival" class="tab" onclick="selectArrivals()">Arrival</div>
+        </div>
+        <div id="timetable-container">
+            <h:panelGroup id="dataTable">
+                <h:dataTable id="departures-list" styleClass="timetable-section"
+                             value="#{homeCDI.stationDto.timetableItemsDeparture}"
+                             var="timetable" columnClasses="cln-1, cln-2, cln-3, cln-4">
+                    <c:choose>
+                        <c:when test="#{homeCDI.stationDto.timetableItemsDeparture.size()==0}">
+                            <h:column>
+                                <f:facet name="header">Departure</f:facet>
+                                -
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Destination</f:facet>
+                                -
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Platform</f:facet>
+                                -
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Status</f:facet>
+                                -
+                            </h:column>
+                        </c:when>
+                        <c:otherwise>
+                            <h:column>
+                                <f:facet name="header">Departure</f:facet>
+                                #{timetable.formattedDepartureTime}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Destination</f:facet>
+                                #{timetable.endTripStationName}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Platform</f:facet>
+                                #{timetable.platform}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Status</f:facet>
+                                No report
+                            </h:column>
+                        </c:otherwise>
+                    </c:choose>
+                </h:dataTable>
 
-        </h:dataTable>
+                <h:dataTable id="arrivals-list" styleClass="hidden timetable-section"
+                             value="#{homeCDI.stationDto.timetableItemsArrival}"
+                             var="timetable" columnClasses="cln-1, cln-2, cln-3, cln-4">
+                    <c:choose>
+                        <c:when test="#{homeCDI.stationDto.timetableItemsArrival.size()==0}">
+                            <h:column>
+                                <f:facet name="header">Arrival</f:facet>
+                                -
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">From</f:facet>
+                                -
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Platform</f:facet>
+                                -
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Status</f:facet>
+                                -
+                            </h:column>
+                        </c:when>
+                        <c:otherwise>
+                            <h:column>
+                                <f:facet name="header">Arrival</f:facet>
+                                #{timetable.formattedArrivalTime}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">From</f:facet>
+                                #{timetable.startTripStationName}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Platform</f:facet>
+                                #{timetable.platform}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Status</f:facet>
+                                No report
+                            </h:column>
+                        </c:otherwise>
+                    </c:choose>
+                </h:dataTable>
+            </h:panelGroup>
+        </div>
     </div>
 
     <h:form>
@@ -38,5 +111,7 @@
             <f:ajax event="update" listener="#{homeCDI.testAjax}" render="dataTable"/>
         </f:websocket>
     </h:form>
+
+    <h:outputScript library="js" name="script.js"/>
 </h:body>
 </html>

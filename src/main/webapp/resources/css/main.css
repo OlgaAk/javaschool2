@@ -10,7 +10,7 @@ body{
 
 #title-station{
 text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     font-size: 24px;
 }
 
@@ -24,13 +24,45 @@ tr{
 
 td{
     border-bottom: #333 3px solid;
-    min-width: 150px;
+
+}
+
+.cln-2{
+    min-width: 200px;
+}
+
+.cln-1, .cln-3, .cln-4{
+    width: 130px;
 }
 
 th{
-    min-width: 150px;
+
 }
 
 .timetable-container{
     margin-top: 100px;
+}
+
+.hidden{
+    display: none;
+}
+
+#tabs-container{
+    display: flex;
+    margin: 0 auto;
+    width: fit-content;
+    color: gray;
+    margin-bottom: 20px;
+}
+
+.tab{
+    margin: 5px 10px;
+}
+
+.tab.selected{
+    text-decoration: underline;
+}
+
+.timetable-section{
+    margin: 0 auto;
 }

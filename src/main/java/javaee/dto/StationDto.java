@@ -54,9 +54,7 @@ public class StationDto {
     }
 
     public List<TimetableItemDto> getTimetableItemsArrival(){
-        return timetableItems.stream().filter(item -> {
-            return !item.getStartTripStationName().equals(item.getStationName());
-        }).sorted().collect(Collectors.toList());
+        return timetableItems.stream().filter(item -> !item.getStartTripStationName().equals(item.getStationName())).sorted().collect(Collectors.toList());
     }
 
     public List<Integer> getPlatforms() {

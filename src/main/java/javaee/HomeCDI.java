@@ -110,7 +110,6 @@ public class HomeCDI implements Serializable {
                     continue tLoop;
                 }
                 //iterate through trains assigned to platform
-
                 for (TimetableItemDto assignedTI : entry.getValue()) {
                     // if next train is intersecting with previous ones, go to next platform
                     if (isTimeIntersecting(assignedTI.getDepartureTimeAsDate(), assignedTI.getArrivalTimeAsDate(),

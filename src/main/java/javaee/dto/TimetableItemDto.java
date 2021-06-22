@@ -32,7 +32,12 @@ public class TimetableItemDto implements Comparable<TimetableItemDto> {
 
     private int order;
 
+    private String statusDeparture;
+
+    private String statusArrival;
+
     private int platform;
+
 
     public TimetableItemDto() {
     }
@@ -141,12 +146,45 @@ public class TimetableItemDto implements Comparable<TimetableItemDto> {
         this.platform = platform;
     }
 
+    public String getStatusDeparture() {
+        if (departureTimeAsDate != null) {
+            if (departureTimeAsDate.getTime() < new Date().getTime()) {
+                return "Departured";
+            }
+        }
+        return "No report";
+    }
+
+    public void setStatusDeparture(String statusDeparture) {
+        this.statusDeparture = statusDeparture;
+    }
+
+    public String getStatusArrival() {
+        if (arrivalTimeAsDate != null) {
+            if (arrivalTimeAsDate.getTime() < new Date().getTime()) {
+                return "Arrived";
+            }
+        }
+        return "No report";
+    }
+
+    public void setStatusArrival(String statusArrival) {
+        this.statusArrival = statusArrival;
+    }
+
     @Override
     public int compareTo(TimetableItemDto t) {
         int result = 0;
         try {
-            Date date1 = new SimpleDateFormat("HH:mm").parse(formattedDepartureTime);
-            Date date2 = new SimpleDateFormat("HH:mm").parse(t.formattedDepartureTime);
+            Date date1;
+            Date date2;
+            if (t.formattedDepartureTime != "-") {
+                date1 = new SimpleDateFormat("HH:mm").parse(formattedDepartureTime);
+                date2 = new SimpleDateFormat("HH:mm").parse(t.formattedDepartureTime);
+            } else {
+                date1 = new SimpleDateFormat("HH:mm").parse(formattedArrivalTime);
+                date2 = new SimpleDateFormat("HH:mm").parse(t.formattedArrivalTime);
+            }
             result = (int) (date1.getTime() - date2.getTime());
         } catch (ParseException e) {
             e.printStackTrace();
@@ -171,8 +209,6 @@ public class TimetableItemDto implements Comparable<TimetableItemDto> {
                 ", order=" + order +
                 '}';
     }
-
-
 
 
 }
